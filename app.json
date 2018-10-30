@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "DemoSSOMobile",
+    "version": "0.0.1",
+    "slug": "demo-sso-mobile",
+    "sdkVersion": "25.0.0",
+    "android" : {
+      "package": "com.jolocom.demossomobile"
+    },
+    "ios": {
+      "bundleIdentifier": "com.jolocom.demossomobile"
+    },
+    "packagerOpts": {
+      "sourceExts": [
+        "ts",
+        "tsx"
+      ],
+      "transformer": "node_modules/react-native-typescript-transformer/index.js"
+    }
+  },
+  "name": "demo-sso-mobile",
+  "displayName": "Demo SSO Mobile",
+  "orientation": "portrait"
+}

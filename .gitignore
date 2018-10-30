@@ -1,0 +1,29 @@
+node_modules/
+build/
+.tern-project
+.expo/
+package-lock.json
+coverage/
+.flowconfig
+.buckconfig
+.gitattributes
+.watchmanconfig
+.DS_Store
+dist/
+
+# React Native Android
+android/.build
+android/.gradle
+
+# React Native IOS
+ios/main.jsbundle
+ios/main.jsbundle.map
+*.pbxuser
+xcuserdata/
+
+# Haul
+haul-debug.log
+
+# Editors
+.vscode/
+yarn-error.log

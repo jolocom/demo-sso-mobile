@@ -11,7 +11,7 @@ Object.assign = assign
 
 // tslint:disable-next-line: no-default-export
 export default class App extends React.Component {
-  
+
   render() {
     return (
       <ThemeProvider uiTheme={ JolocomTheme }>

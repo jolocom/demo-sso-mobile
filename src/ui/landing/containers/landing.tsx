@@ -17,7 +17,7 @@ export class LandingContainer extends React.Component<Props> {
       .then(async (encodedJwt) => {
         encodedCredentialRequestJwt = await encodedJwt.text()
       })
-    Linking.openURL('jolocomwallet://consent' + encodedCredentialRequestJwt)
+    Linking.openURL('jolocomwallet://consent/' + encodedCredentialRequestJwt)
   }
 
   render() {

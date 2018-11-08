@@ -22,7 +22,7 @@ export const handleDeepLink = (url: string) => {
     const route: string = url.replace(/.*?:\/\//g, '')
     const params: string = (route.match(/\/([^\/]+)\/?$/) as string[])[1] || ''
     const routeName = route!.split('/')[0]
-     if (routeName === 'consent') {
+     if (routeName === 'authenticate') {
       dispatch(ssoActions.handleJWTResponse(params))
     }
   }

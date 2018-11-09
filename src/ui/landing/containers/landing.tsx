@@ -20,6 +20,8 @@ export class LandingContainer extends React.Component<Props> {
     Linking.openURL('jolocomwallet://consent/' + encodedCredentialRequestJwt)
   }
 
+  //on success, navigate to home screen
+
   render() {
       return (
         <LandingComponent handleButtonTap={ this.handleButtonTap } />

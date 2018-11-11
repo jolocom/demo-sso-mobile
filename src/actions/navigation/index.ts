@@ -20,10 +20,11 @@ export const navigatorReset = (newScreen: NavigationNavigateActionPayload) => {
 export const handleDeepLink = (url: string) => {
   return (dispatch: Dispatch<AnyAction>) => {
     const route: string = url.replace(/.*?:\/\//g, '')
-    const params: string = (route.match(/\/([^\/]+)\/?$/) as string[])[1] || ''
-    const routeName = route!.split('/')[0]
+    const encodedJwt: string = (route.match(/\/([^\/]+)\/?$/) as string[])[1] || ''
+    const routeName: string = route!.split('/')[0]
+
      if (routeName === 'authenticate') {
-      dispatch(ssoActions.handleJWTResponse(params))
+      dispatch(ssoActions.handleJWTResponse(encodedJwt))
     }
   }
 }

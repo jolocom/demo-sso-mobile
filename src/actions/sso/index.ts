@@ -8,11 +8,12 @@ export const startSSO = async (decodedJwt: any) => {
   }
 }
 
-export const handleJWTResponse = async (encodedJwt: string) => {
+export const handleJWTResponse = (encodedJwt: string) => {
   return async(dispatch: Dispatch<AnyAction>, getState: Function) => {
 
   const decodedJwt = await JolocomLib.parse.interactionJSONWebToken.decode(encodedJwt)
-  console.log(decodedJwt)
+  console.log(decodedJwt, 'here is your decodedjwt')
+
   dispatch(navigatorReset({ routeName: routeList.Home }))
   }
 }

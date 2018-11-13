@@ -13,7 +13,7 @@ export class LandingContainer extends React.Component<Props> {
 
   async handleButtonTap() {
     let encodedCredentialRequestJwt
-    await fetch('http://192.168.2.105:9000/credentialRequest')
+    await fetch('https://demo-sso.jolocom.com/credentialRequest')
       .then(async (encodedJwt) => {
         encodedCredentialRequestJwt = await encodedJwt.text()
       })

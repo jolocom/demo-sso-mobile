@@ -8,7 +8,7 @@ interface State {
 }
 
 interface Props {
-  handleButtonTap: () => void;
+  handleButtonTap: () => void
 }
 
 const styles = StyleSheet.create({
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
   buttonBlock: {
     flex: 0.1,
-    backgroundColor: '#05050d' 
+    backgroundColor: '#05050d'
   },
   buttonContainer: {
     height: '100%',
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     fontFamily: JolocomTheme.contentFontFamily,
     color: JolocomTheme.primaryColorWhite,
     fontSize: JolocomTheme.headerFontSize,
-    fontWeight: "100" 
+    fontWeight: "100"
   }
 })
 

@@ -4,6 +4,7 @@ import { Linking } from 'react-native'
 import { LandingComponent } from 'src/ui/landing/components/landing'
 import { RootState } from 'src/reducers/'
 
+
 interface ConnectProps {
 }
 
@@ -19,8 +20,6 @@ export class LandingContainer extends React.Component<Props> {
       })
     Linking.openURL('jolocomwallet://consent/' + encodedCredentialRequestJwt)
   }
-
-  //on success, navigate to home screen
 
   render() {
       return (

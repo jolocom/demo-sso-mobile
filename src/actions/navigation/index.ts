@@ -1,4 +1,4 @@
-import { routeList } from 'src/routeList'
+// import { routeList } from 'src/routeList'
 import { AnyAction, Dispatch } from 'redux'
 import { ssoActions } from 'src/actions/'
 import { NavigationActions, NavigationNavigateActionPayload } from 'react-navigation'
@@ -31,6 +31,5 @@ export const handleDeepLink = (url: string) => {
      if (routeName === 'authenticate') {
       dispatch(ssoActions.handleJWTResponse(encodedJwt))
     }
-    dispatch(navigatorReset({ routeName: routeList.Home }))
   }
 }

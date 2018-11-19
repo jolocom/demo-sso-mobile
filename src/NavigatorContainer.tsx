@@ -34,7 +34,9 @@ export class NavigatorContainer extends React.Component<Props> {
     BackHandler.addEventListener('hardwareBackPress', this.navigateBack)
     if (Platform.OS === 'android') {
       Linking.getInitialURL().then((url: string) => {
-        this.props.handleDeepLink(url)
+        if (url) {
+          this.props.handleDeepLink(url)
+        }
       })
     } else {
       Linking.addEventListener('url', this.handleOpenURL)

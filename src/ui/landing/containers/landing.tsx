@@ -4,6 +4,7 @@ import { Linking } from 'react-native'
 import { LandingComponent } from 'src/ui/landing/components/landing'
 import { RootState } from 'src/reducers/'
 
+
 interface ConnectProps {
 }
 
@@ -13,14 +14,12 @@ export class LandingContainer extends React.Component<Props> {
 
   async handleButtonTap() {
     let encodedCredentialRequestJwt
-    await fetch('https://demo-sso.jolocom.com/credentialRequest')
+    await fetch('https://demo-sso.jolocom.com/authentication-mobile/credentialRequest')
       .then(async (encodedJwt) => {
         encodedCredentialRequestJwt = await encodedJwt.text()
       })
     Linking.openURL('jolocomwallet://consent/' + encodedCredentialRequestJwt)
   }
-
-  //on success, navigate to home screen
 
   render() {
       return (

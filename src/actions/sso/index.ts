@@ -2,14 +2,6 @@ import { navigatorReset } from 'src/actions/navigation'
 import { JolocomLib } from 'jolocom-lib'
 import { routeList } from 'src/routeList'
 import { Dispatch, AnyAction } from 'redux'
-import { CredentialResponsePayload } from 'jolocom-lib/js/interactionFlows/credentialResponse/credentialResponsePayload';
-
-export const setCredentialResponseData =  (response: CredentialResponsePayload) => {
-  return {
-    type: 'SET_CREDENTIAL_RESPONSE_DATA',
-    value: response
-  }
-}
 
 export const handleJWTResponse = (encodedJwt: string) => {
   return async(dispatch: Dispatch<AnyAction>, getState: Function) => {
@@ -19,6 +11,5 @@ export const handleJWTResponse = (encodedJwt: string) => {
   //UI toggling back and forth, add loading screen
   if (decodedJwt.satisfiesRequest(decodedCR.credentialRequest)) {
     dispatch(navigatorReset({ routeName: routeList.Home }))
-    // dispatch(setCredentialResponseData(decodedJwt))
   }}
 }

@@ -14,7 +14,7 @@ export class LandingContainer extends React.Component<Props> {
 
   async handleButtonTap() {
     let encodedCredentialRequestJwt
-    await fetch('https://demo-sso.jolocom.com/credentialRequest')
+    await fetch('https://demo-sso.jolocom.com/authentication-mobile/credentialRequest')
       .then(async (encodedJwt) => {
         encodedCredentialRequestJwt = await encodedJwt.text()
       })

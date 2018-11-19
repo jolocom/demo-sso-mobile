@@ -16,7 +16,7 @@ export class HomeContainer extends React.Component<Props> {
 
   async handleButtonTap() {
     let encodedReceivedCredential
-    await fetch('https://demo-sso.jolocom.com/receive', {
+    await fetch('https://demo-sso.jolocom.com/credentialReceive', {
       method: 'POST',
       headers: {
         Accept: 'application/json',

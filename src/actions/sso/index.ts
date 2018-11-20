@@ -6,7 +6,7 @@ import { Linking } from 'react-native'
 
 export const startSignOn = () => {
   return async(dispatch: Dispatch<AnyAction>, getState: Function) => {
-    const demoAuthURL = 'https://demo-sso.jolocom.com/authentication-mobile/credentialRequest'
+    const demoAuthURL = 'https://demo-sso.jolocom.com/mobile/credentialRequest'
     try {
       const tokenData = await fetch(demoAuthURL)
       const tokenCredRequest = await tokenData.text()
@@ -42,25 +42,15 @@ export const handleCredResponse = (encodedJwt: string) => {
   }
 }
 
-// TODO: refactor; will not work at the moment
 export const issueSignedCredential = () => {
   return async(dispatch: Dispatch<AnyAction>, getState: Function) => {
-    const demoCredReceiveURL = 'https://demo-sso.jolocom.com/credentialReceive'
+    const demoCredOfferRequestURL = 'https://demo-sso.jolocom.com/mobile/credentialOfferRequest'
+    
     try {
-      const res = await fetch(demoCredReceiveURL, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NksifQ.eyJjcmVkZW50aWFsT2ZmZXIiOnsiaW5zdGFudCI6dHJ1ZSwiY2hhbGxlbmdlIjoiaGFoN24iLCJyZXF1ZXN0ZWRJbnB1dCI6e30sImNhbGxiYWNrVVJMIjoiaHR0cHM6Ly9kZW1vLXNzby5qb2xvY29tLmNvbS9yZWNlaXZlLyJ9LCJ0eXAiOiJjcmVkZW50aWFsT2ZmZXJSZXF1ZXN0IiwiaWF0IjoxNTQyMjk4MTI1NDEzLCJpc3MiOiJkaWQ6am9sbzo3OTJiMTA2Y2U5M2JjOWUyMDBmNzgxMmQzM2RiYzNhMzY3YzU3YTBkNWFmMTFkMDkzNWVhZTFjYTEzYzVjMTY3I2tleXMtMSJ9.F1b_t4ZwpepsvIft8DSc0ndPmwKPZN0J_DMTa8u6R0ykwQsDCy3kr7VcpQcSYXcFVq2V7c9LVsPyikjwklXBcQ',
-        })
-      })
-      const tokenData = await res.json()
-      const encodedCredReceive = tokenData.token
+      const tokenData = await fetch(demoCredOfferRequestURL)
+      const tokenCredOfferRequest = await tokenData.text()
 
-      Linking.openURL('jolocomwallet://consent/' + encodedCredReceive)
+      Linking.openURL('jolocomwallet://consent/' + tokenCredOfferRequest)
     } catch (error) {
       console.error(error)
     }

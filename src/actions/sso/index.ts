@@ -42,7 +42,7 @@ export const handleCredResponse = (encodedJwt: string) => {
   }
 }
 
-// TODO: optimize
+// TODO: refactor; will not work at the moment
 export const issueSignedCredential = () => {
   return async(dispatch: Dispatch<AnyAction>, getState: Function) => {
     const demoCredReceiveURL = 'https://demo-sso.jolocom.com/credentialReceive'

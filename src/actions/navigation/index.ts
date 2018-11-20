@@ -18,9 +18,12 @@ export const navigatorReset = (newScreen: NavigationNavigateActionPayload) => {
   })
 }
 
-//  We first parse the url to get the id and route name.
-// We then check to see if the route name is equal to 'authenticate',
-// and if so we navigate to the Home component, passing the encodedJWT as a prop.
+/**
+ * @description - Handler for deep linking; id and route name are parsed from url
+ * in case route name equals to 'authenticate', handleCredResponse action is called
+ * with encoded JWT. Consumption ans subsequent handling is perfordmed here. 
+ * @param url - a deep link string with the following schema: appName://routeName/params
+ */
 
 export const handleDeepLink = (url: string) => {
   return (dispatch: Dispatch<AnyAction>) => {

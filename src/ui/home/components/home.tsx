@@ -62,7 +62,7 @@ export class HomeComponent extends React.Component<Props, State> {
             text: styles.buttonText
           }}
           upperCase= { false }
-          text='Receive external credential'
+          text='Receive Credential'
         />
       </Block>
       </Container>

@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontFamily: JolocomTheme.contentFontFamily,
     color: JolocomTheme.primaryColorWhite,
-    fontSize: JolocomTheme.headerFontSize,
+    fontSize: 14,
     fontWeight: "100"
   }
 })

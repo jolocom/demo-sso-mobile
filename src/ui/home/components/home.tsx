@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     color: 'white',
-    fontSize: 36
+    fontSize: 32
   },
   subheaderText: {
     color: 'white',
@@ -62,7 +62,7 @@ export class HomeComponent extends React.Component<Props, State> {
             text: styles.buttonText
           }}
           upperCase= { false }
-          text='Receive external credential'
+          text='Receive Credential'
         />
       </Block>
       </Container>

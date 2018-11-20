@@ -1,29 +1,22 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Linking } from 'react-native'
+
 import { LandingComponent } from 'src/ui/landing/components/landing'
 import { RootState } from 'src/reducers/'
+import { ssoActions } from 'src/actions'
 
 
 interface ConnectProps {
+  startSignOn: () => void
+  setRemotlyGeneratedToken: (token: string) => void
 }
 
 interface Props extends ConnectProps {}
 
 export class LandingContainer extends React.Component<Props> {
-
-  async handleButtonTap() {
-    let encodedCredentialRequestJwt
-    await fetch('https://demo-sso.jolocom.com/authentication-mobile/credentialRequest')
-      .then(async (encodedJwt) => {
-        encodedCredentialRequestJwt = await encodedJwt.text()
-      })
-    Linking.openURL('jolocomwallet://consent/' + encodedCredentialRequestJwt)
-  }
-
   render() {
       return (
-        <LandingComponent handleButtonTap={ this.handleButtonTap } />
+        <LandingComponent handleButtonTap={ this.props.startSignOn } />
       )
   }
 }
@@ -34,6 +27,8 @@ const mapStateToProps = (state: RootState) => {
 
 const mapDispatchToProps = (dispatch: Function) => {
   return {
+    startSignOn: () => dispatch(ssoActions.startSignOn()),
+    setRemotlyGeneratedToken: (token: string) => dispatch(ssoActions.setRemotlyGeneratedToken(token))
   }
 }
 

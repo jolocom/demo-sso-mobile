@@ -29,7 +29,7 @@ export const handleDeepLink = (url: string) => {
     const routeName: string = route!.split('/')[0]
 
      if (routeName === 'authenticate') {
-      dispatch(ssoActions.handleJWTResponse(encodedJwt))
+      dispatch(ssoActions.handleCredResponse(encodedJwt))
     }
   }
 }

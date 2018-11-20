@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     color: 'white',
-    fontSize: 36
+    fontSize: 32
   },
   subheaderText: {
     color: 'white',

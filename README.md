@@ -33,6 +33,14 @@ The demo-sso-mobile app is a simple UI implementation. No seed / key handling is
 
 The service which takes care of the signing operations is a version of the [demo-sso](https://github.com/jolocom/demo-sso).
 
+The Jolocom SmartWallet app can be addressed by the following format:
+
+```bash
+  'jolocomwallet://consent/<encodedInteractionToken>'
+```
+
+The encoded interaction token can be generated using the jolocom-lib. Note that in this demo app we have implemented the interaction flow of sharing credentials (Authentication section) and the flow of issuing a credential to a user (Issue Credential section). 
+
 
 Authentication
 ----------------------------------------

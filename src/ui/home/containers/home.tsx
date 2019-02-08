@@ -7,6 +7,7 @@ import { ssoActions } from 'src/actions'
 
 interface ConnectProps {
   issueSignedCredential: () => void
+  startPaymentInteraction: () => void
   credentialResponsePayload: SsoState
 }
 
@@ -15,7 +16,10 @@ interface Props extends ConnectProps {}
 export class HomeContainer extends React.Component<Props> {
   render() {
       return (
-        <HomeComponent handleButtonTap={ this.props.issueSignedCredential }/>
+        <HomeComponent
+          handleIssueCredential={ this.props.issueSignedCredential }
+          handlePaymentInteraction={ this.props.startPaymentInteraction }
+        />
       )
   }
 }
@@ -27,6 +31,7 @@ const mapStateToProps = (state: RootState) => {
 
 const mapDispatchToProps = (dispatch: Function) => {
   return {
+    startPaymentInteraction: () => dispatch(ssoActions.startPaymentInteraction()),
     issueSignedCredential: () => dispatch(ssoActions.issueSignedCredential())
   }
 }

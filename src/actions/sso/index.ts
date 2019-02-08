@@ -4,9 +4,11 @@ import { routeList } from 'src/routeList'
 import { Dispatch, AnyAction } from 'redux'
 import { Linking } from 'react-native'
 
+const BASE_URL = 'https://demo-sso.jolocom.com' 
+
 export const startSignOn = () => {
   return async(dispatch: Dispatch<AnyAction>, getState: Function) => {
-    const demoAuthURL = 'https://demo-sso.jolocom.com/mobile/credentialRequest'
+    const demoAuthURL = `${BASE_URL}/mobile/credentialRequest`
     try {
       const tokenData = await fetch(demoAuthURL)
       const tokenCredRequest = await tokenData.text()
@@ -19,6 +21,23 @@ export const startSignOn = () => {
   }
 }
 
+export const startPaymentInteraction = () => {
+  return async(dispatch: Dispatch<AnyAction>, getState: Function) => {
+    const demoPaymentRequestURL = `${BASE_URL}/mobile/paymentRequest`
+    try {
+      const tokenData = await fetch(demoPaymentRequestURL)
+      const tokenPaymentRequest = await tokenData.text()
+      console.log('paymentRequest: ', PaymentRequest)
+      dispatch(setRemotlyGeneratedToken(tokenPaymentRequest))
+
+      Linking.openURL('jolocomwallet://paymentConsent/' + tokenPaymentRequest)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
+// TODO: do I need to change this for specific cases or can this stay generic?
 export const setRemotlyGeneratedToken = (encodedCredRequestToken: string) => {
   return {
     type: 'SET_CREDENTIAL_REQUEST',
@@ -42,9 +61,24 @@ export const handleCredResponse = (encodedJwt: string) => {
   }
 }
 
+export const handlePaymentResponse = (encodedJwt: string) => {
+  return async(dispatch: Dispatch<AnyAction>, getState: Function) => {
+    const paymentRequest = getState().sso.paymentRequest
+
+    try {
+      const decodedPaymentRequest = await JolocomLib.parse.interactionToken.fromJWT(paymentRequest)
+      const decodedPaymentResponse = await JolocomLib.parse.interactionToken.fromJWT(encodedJwt)
+      console.log(decodedPaymentRequest, decodedPaymentResponse)
+    } catch (err) {
+      console.log('ERROR: ', err)
+    }
+  }
+}
+
+
 export const issueSignedCredential = () => {
   return async(dispatch: Dispatch<AnyAction>, getState: Function) => {
-    const demoCredOfferRequestURL = 'https://demo-sso.jolocom.com/mobile/credentialOfferRequest'
+    const demoCredOfferRequestURL = `${BASE_URL}/mobile/credentialOfferRequest`
     
     try {
       const tokenData = await fetch(demoCredOfferRequestURL)

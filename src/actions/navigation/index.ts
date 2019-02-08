@@ -30,8 +30,12 @@ export const handleDeepLink = (url: string) => {
     const encodedJwt: string = (route.match(/\/([^\/]+)\/?$/) as string[])[1] || ''
     const routeName: string = route!.split('/')[0]
 
-     if (routeName === 'authenticate') {
+    if (routeName === 'authenticate') {
       dispatch(ssoActions.handleCredResponse(encodedJwt))
+    }
+
+    if(routeName === 'paymentRequest') {
+      dispatch(ssoActions.handlePaymentResponse(encodedJwt))
     }
   }
 }

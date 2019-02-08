@@ -8,7 +8,8 @@ interface State {
 }
 
 interface Props {
-  handleButtonTap: () => void
+  handleIssueCredential: () => void
+  handlePaymentInteraction: () => void
 }
 
 const styles = StyleSheet.create({
@@ -54,16 +55,28 @@ export class HomeComponent extends React.Component<Props, State> {
           <Text style={ styles.headerText }>You are now signed in!</Text>
         </Block>
         <Block style={ styles.buttonBlock}>
-        <Button
-          raised
-          onPress={ this.props.handleButtonTap }
-          style={{
-            container: styles.buttonContainer,
-            text: styles.buttonText
-          }}
-          upperCase= { false }
-          text='Receive Credential'
-        />
+          <Button
+            raised
+            onPress={ this.props.handleIssueCredential }
+            style={{
+              container: styles.buttonContainer,
+              text: styles.buttonText
+            }}
+            upperCase= { false }
+            text='Receive Credential'
+          />
+      </Block>
+      <Block style={ styles.buttonBlock}>
+          <Button
+            raised
+            onPress={ this.props.handlePaymentInteraction }
+            style={{
+              container: styles.buttonContainer,
+              text: styles.buttonText
+            }}
+            upperCase= { false }
+            text='Buy a t-shirt'
+          />
       </Block>
       </Container>
     )

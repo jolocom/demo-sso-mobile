@@ -87,7 +87,7 @@
     }
   },
   "dependencies": {
-    "jolocom-lib": "^2.2.1",
+    "jolocom-lib": "^2.2.10",
     "material-colors": "^1.2.5",
     "object.assign": "^4.1.0",
     "react": "16.2.0",

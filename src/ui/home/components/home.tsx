@@ -24,7 +24,14 @@ const styles = StyleSheet.create({
   },
   headerText: {
     color: 'white',
-    fontSize: 16
+    fontSize: 18
+  },
+  hashText: {
+    color: 'white',
+    fontSize: 16,
+    marginTop: '10%',
+    paddingLeft: '5%',
+    paddingRight: '5%'
   },
   subheaderText: {
     color: 'white',
@@ -56,12 +63,12 @@ export class HomeComponent extends React.Component<Props, State> {
       <Container style= { styles.mainContainerStyle }>
         <Block>
         <Text style={ styles.headerText }>Welcome</Text>
-        </Block>
         {
           this.props.sso.transactionHash
-          ? <Text style={ styles.headerText }>{ this.props.sso.transactionHash }</Text>
+          ? <Text style={ styles.hashText }>Transaction hash: {this.props.sso.transactionHash} </Text>
           : null
         }
+        </Block>
         <Block style={ styles.buttonBlock}>
           <Button
             raised

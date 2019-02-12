@@ -7,8 +7,7 @@ import { JSONWebToken } from 'jolocom-lib/js/interactionTokens/JSONWebToken'
 import { CredentialResponse } from 'jolocom-lib/js/interactionTokens/credentialResponse'
 import { PaymentResponse } from 'jolocom-lib/js/interactionTokens/paymentResponse'
 
-// 'https://demo-sso.jolocom.com'
-const BASE_URL =  'https://9b1a8fae.ngrok.io' 
+const BASE_URL = 'https://demo-sso.jolocom.com'
 
 export const handleInteractionToken = (encodedJWT: string) => {
   return async(dispatch: Dispatch<AnyAction>, getState: Function) => {

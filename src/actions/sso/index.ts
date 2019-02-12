@@ -3,9 +3,26 @@ import { JolocomLib } from 'jolocom-lib'
 import { routeList } from 'src/routeList'
 import { Dispatch, AnyAction } from 'redux'
 import { Linking } from 'react-native'
+import { JSONWebToken } from 'jolocom-lib/js/interactionTokens/JSONWebToken'
+import { CredentialResponse } from 'jolocom-lib/js/interactionTokens/credentialResponse'
+import { PaymentResponse } from 'jolocom-lib/js/interactionTokens/paymentResponse'
 
 // 'https://demo-sso.jolocom.com'
 const BASE_URL =  'https://9b1a8fae.ngrok.io' 
+
+export const handleInteractionToken = (encodedJWT: string) => {
+  return async(dispatch: Dispatch<AnyAction>, getState: Function) => {
+    const decodedToken = JolocomLib.parse.interactionToken.fromJWT(encodedJWT)
+
+    if(decodedToken.interactionType === 'credentialResponse') {
+      dispatch(handleCredResponse(decodedToken))
+    }
+    
+    if(decodedToken.interactionType === 'paymentResponse') {
+      dispatch(handlePaymentResponse(decodedToken))
+    }
+  }
+} 
 
 export const startSignOn = () => {
   return async(dispatch: Dispatch<AnyAction>, getState: Function) => {
@@ -44,14 +61,13 @@ export const setRemotlyGeneratedToken = (encodedRequestToken: string) => {
   }
 }
 
-export const handleCredResponse = (encodedJwt: string) => {
+export const handleCredResponse = (credResponse: JSONWebToken<CredentialResponse>) => {
   return async(dispatch: Dispatch<AnyAction>, getState: Function) => {
     const credRequest = getState().sso.encodedTokenRequest
     try {
       const decodedCredRequest = await JolocomLib.parse.interactionToken.fromJWT(credRequest)
-      const decodedCredResponse = await JolocomLib.parse.interactionToken.fromJWT(encodedJwt)
       
-      if (decodedCredResponse.interactionToken.satisfiesRequest(decodedCredRequest.interactionToken)) {
+      if (credResponse.interactionToken.satisfiesRequest(decodedCredRequest.interactionToken)) {
         dispatch(navigatorReset({ routeName: routeList.Home }))
       }
     } catch (error) {
@@ -60,16 +76,14 @@ export const handleCredResponse = (encodedJwt: string) => {
   }
 }
 
-export const handlePaymentResponse = (encodedJwt: string) => {
+export const handlePaymentResponse = (paymentResponse: JSONWebToken<PaymentResponse>) => {
   return async(dispatch: Dispatch<AnyAction>, getState: Function) => {
     // const paymentRequest = getState().sso.encodedTokenRequest
 
     try {
       // const decodedPaymentRequest = await JolocomLib.parse.interactionToken.fromJWT(paymentRequest)
-      const decodedPaymentResponse = await JolocomLib.parse.interactionToken.fromJWT(encodedJwt)
-
       // TODO: add remote validation step
-      dispatch(setPaymentResponseData(decodedPaymentResponse.interactionToken.transactionHash))
+      dispatch(setPaymentResponseData(paymentResponse.interactionToken.txHash))
     } catch (error) {
       console.error(error)
     }

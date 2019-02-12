@@ -4,7 +4,8 @@ import { routeList } from 'src/routeList'
 import { Dispatch, AnyAction } from 'redux'
 import { Linking } from 'react-native'
 
-const BASE_URL = 'https://demo-sso.jolocom.com' 
+// 'https://demo-sso.jolocom.com'
+const BASE_URL =  'https://9b1a8fae.ngrok.io' 
 
 export const startSignOn = () => {
   return async(dispatch: Dispatch<AnyAction>, getState: Function) => {
@@ -12,8 +13,8 @@ export const startSignOn = () => {
     try {
       const tokenData = await fetch(demoAuthURL)
       const tokenCredRequest = await tokenData.text()
-      dispatch(setRemotlyGeneratedToken(tokenCredRequest))
 
+      dispatch(setRemotlyGeneratedToken(tokenCredRequest))
       Linking.openURL('jolocomwallet://consent/' + tokenCredRequest)
     } catch (error) {
       console.error(error)
@@ -27,27 +28,25 @@ export const startPaymentInteraction = () => {
     try {
       const tokenData = await fetch(demoPaymentRequestURL)
       const tokenPaymentRequest = await tokenData.text()
-      console.log('paymentRequest: ', PaymentRequest)
-      dispatch(setRemotlyGeneratedToken(tokenPaymentRequest))
 
-      Linking.openURL('jolocomwallet://paymentConsent/' + tokenPaymentRequest)
+      dispatch(setRemotlyGeneratedToken(tokenPaymentRequest))
+      Linking.openURL('jolocomwallet://consent/' + tokenPaymentRequest)
     } catch (error) {
       console.error(error)
     }
   }
 }
 
-// TODO: do I need to change this for specific cases or can this stay generic?
-export const setRemotlyGeneratedToken = (encodedCredRequestToken: string) => {
+export const setRemotlyGeneratedToken = (encodedRequestToken: string) => {
   return {
-    type: 'SET_CREDENTIAL_REQUEST',
-    value: encodedCredRequestToken
+    type: 'SET_TOKEN_REQUEST',
+    value: encodedRequestToken
   }
 }
 
 export const handleCredResponse = (encodedJwt: string) => {
   return async(dispatch: Dispatch<AnyAction>, getState: Function) => {
-    const credRequest = getState().sso.credentialRequest
+    const credRequest = getState().sso.encodedTokenRequest
     try {
       const decodedCredRequest = await JolocomLib.parse.interactionToken.fromJWT(credRequest)
       const decodedCredResponse = await JolocomLib.parse.interactionToken.fromJWT(encodedJwt)
@@ -63,18 +62,26 @@ export const handleCredResponse = (encodedJwt: string) => {
 
 export const handlePaymentResponse = (encodedJwt: string) => {
   return async(dispatch: Dispatch<AnyAction>, getState: Function) => {
-    const paymentRequest = getState().sso.paymentRequest
+    // const paymentRequest = getState().sso.encodedTokenRequest
 
     try {
-      const decodedPaymentRequest = await JolocomLib.parse.interactionToken.fromJWT(paymentRequest)
+      // const decodedPaymentRequest = await JolocomLib.parse.interactionToken.fromJWT(paymentRequest)
       const decodedPaymentResponse = await JolocomLib.parse.interactionToken.fromJWT(encodedJwt)
-      console.log(decodedPaymentRequest, decodedPaymentResponse)
-    } catch (err) {
-      console.log('ERROR: ', err)
+
+      // TODO: add remote validation step
+      dispatch(setPaymentResponseData(decodedPaymentResponse.interactionToken.transactionHash))
+    } catch (error) {
+      console.error(error)
     }
   }
 }
 
+export const setPaymentResponseData = (transactionHash: string) => {
+  return {
+    type: 'SET_PAYMENT_RESPONSE_DATA',
+    value: transactionHash
+  }
+}
 
 export const issueSignedCredential = () => {
   return async(dispatch: Dispatch<AnyAction>, getState: Function) => {

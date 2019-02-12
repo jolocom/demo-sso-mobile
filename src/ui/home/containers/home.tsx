@@ -6,6 +6,7 @@ import { SsoState } from 'src/reducers/sso'
 import { ssoActions } from 'src/actions'
 
 interface ConnectProps {
+  sso: SsoState
   issueSignedCredential: () => void
   startPaymentInteraction: () => void
   credentialResponsePayload: SsoState
@@ -17,6 +18,7 @@ export class HomeContainer extends React.Component<Props> {
   render() {
       return (
         <HomeComponent
+          sso={ this.props.sso }
           handleIssueCredential={ this.props.issueSignedCredential }
           handlePaymentInteraction={ this.props.startPaymentInteraction }
         />
@@ -26,6 +28,7 @@ export class HomeContainer extends React.Component<Props> {
 
 const mapStateToProps = (state: RootState) => {
   return {
+    sso: state.sso
   }
 }
 

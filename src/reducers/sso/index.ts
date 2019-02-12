@@ -1,12 +1,14 @@
 import { AnyAction } from 'redux'
 
 export interface SsoState {
-  credentialRequest: string,
+  transactionHash: string,
+  encodedTokenRequest: string,
   credentialResponsePayload: any
 }
 
 const initialState = {
-  credentialRequest: '',
+  transactionHash: '',
+  encodedTokenRequest: '',
   credentialResponsePayload: {
     credentialResponse:{
       suppliedCredentials: []
@@ -21,10 +23,15 @@ export const ssoReducer = (state = initialState, action: AnyAction): SsoState =>
         ...state,
         credentialResponsePayload: action.value
       }
-    case 'SET_CREDENTIAL_REQUEST':
+    case 'SET_TOKEN_REQUEST':
       return {
         ...state,
-        credentialRequest: action.value
+        encodedTokenRequest: action.value
+      }
+    case 'SET_PAYMENT_RESPONSE_DATA':
+      return {
+        ...state,
+        transactionHash: action.value
       }
     default:
       return state

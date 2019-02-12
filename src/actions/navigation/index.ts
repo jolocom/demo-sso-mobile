@@ -34,7 +34,7 @@ export const handleDeepLink = (url: string) => {
       dispatch(ssoActions.handleCredResponse(encodedJwt))
     }
 
-    if(routeName === 'paymentRequest') {
+    if(routeName === 'payment') {
       dispatch(ssoActions.handlePaymentResponse(encodedJwt))
     }
   }

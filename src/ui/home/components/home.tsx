@@ -3,12 +3,15 @@ import { StyleSheet, Text } from 'react-native'
 import { Button } from 'react-native-material-ui'
 import { Container, Block } from 'src/ui/structure'
 import { JolocomTheme } from 'src/styles/jolocom-theme'
+import { SsoState } from 'src/reducers/sso'
 
 interface State {
 }
 
 interface Props {
-  handleButtonTap: () => void
+  sso: SsoState
+  handleIssueCredential: () => void
+  handlePaymentInteraction: () => void
 }
 
 const styles = StyleSheet.create({
@@ -21,7 +24,14 @@ const styles = StyleSheet.create({
   },
   headerText: {
     color: 'white',
-    fontSize: 32
+    fontSize: 18
+  },
+  hashText: {
+    color: 'white',
+    fontSize: 16,
+    marginTop: '10%',
+    paddingLeft: '5%',
+    paddingRight: '5%'
   },
   subheaderText: {
     color: 'white',
@@ -29,7 +39,8 @@ const styles = StyleSheet.create({
   },
   buttonBlock: {
     flex: 0.1,
-    backgroundColor: '#05050d'
+    backgroundColor: '#05050d',
+    marginTop: '2%'
   },
   buttonContainer: {
     height: '100%',
@@ -51,19 +62,36 @@ export class HomeComponent extends React.Component<Props, State> {
     return (
       <Container style= { styles.mainContainerStyle }>
         <Block>
-          <Text style={ styles.headerText }>You are now signed in!</Text>
+        <Text style={ styles.headerText }>Welcome</Text>
+        {
+          this.props.sso.transactionHash
+          ? <Text style={ styles.hashText }>Transaction hash: {this.props.sso.transactionHash} </Text>
+          : null
+        }
         </Block>
         <Block style={ styles.buttonBlock}>
-        <Button
-          raised
-          onPress={ this.props.handleButtonTap }
-          style={{
-            container: styles.buttonContainer,
-            text: styles.buttonText
-          }}
-          upperCase= { false }
-          text='Receive Credential'
-        />
+          <Button
+            raised
+            onPress={ this.props.handleIssueCredential }
+            style={{
+              container: styles.buttonContainer,
+              text: styles.buttonText
+            }}
+            upperCase= { false }
+            text='Receive Credential'
+          />
+      </Block>
+      <Block style={ styles.buttonBlock }>
+          <Button
+            raised
+            onPress={ this.props.handlePaymentInteraction }
+            style={{
+              container: styles.buttonContainer,
+              text: styles.buttonText
+            }}
+            upperCase= { false }
+            text='Buy a t-shirt'
+          />
       </Block>
       </Container>
     )

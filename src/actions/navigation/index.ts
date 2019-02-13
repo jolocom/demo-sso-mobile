@@ -19,8 +19,8 @@ export const navigatorReset = (newScreen: NavigationNavigateActionPayload) => {
 
 /**
  * @description - Handler for deep linking; id and route name are parsed from url
- * in case route name equals to 'authenticate', handleCredResponse action is called
- * with encoded JWT. Consumption ans subsequent handling is perfordmed here. 
+ * in case route name equals to 'interaction', the handler for interaction token is called
+ * with encoded JWT. Consumption and subsequent handling is perfordmed here. 
  * @param url - a deep link string with the following schema: appName://routeName/params
  */
 
@@ -30,8 +30,11 @@ export const handleDeepLink = (url: string) => {
     const encodedJwt: string = (route.match(/\/([^\/]+)\/?$/) as string[])[1] || ''
     const routeName: string = route!.split('/')[0]
 
-     if (routeName === 'authenticate') {
-      dispatch(ssoActions.handleCredResponse(encodedJwt))
+    if (routeName === 'interaction') {
+      dispatch(ssoActions.handleInteractionToken(encodedJwt))
+    }
+    if (routeName === 'demo') {
+      dispatch(ssoActions.handleDemoPaymentResponse(encodedJwt))
     }
   }
 }

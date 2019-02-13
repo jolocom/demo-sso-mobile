@@ -6,7 +6,9 @@ import { SsoState } from 'src/reducers/sso'
 import { ssoActions } from 'src/actions'
 
 interface ConnectProps {
+  sso: SsoState
   issueSignedCredential: () => void
+  startPaymentInteraction: () => void
   credentialResponsePayload: SsoState
 }
 
@@ -15,18 +17,24 @@ interface Props extends ConnectProps {}
 export class HomeContainer extends React.Component<Props> {
   render() {
       return (
-        <HomeComponent handleButtonTap={ this.props.issueSignedCredential }/>
+        <HomeComponent
+          sso={ this.props.sso }
+          handleIssueCredential={ this.props.issueSignedCredential }
+          handlePaymentInteraction={ this.props.startPaymentInteraction }
+        />
       )
   }
 }
 
 const mapStateToProps = (state: RootState) => {
   return {
+    sso: state.sso
   }
 }
 
 const mapDispatchToProps = (dispatch: Function) => {
   return {
+    startPaymentInteraction: () => dispatch(ssoActions.startPaymentInteraction()),
     issueSignedCredential: () => dispatch(ssoActions.issueSignedCredential())
   }
 }

@@ -3,15 +3,34 @@ import { JolocomLib } from 'jolocom-lib'
 import { routeList } from 'src/routeList'
 import { Dispatch, AnyAction } from 'redux'
 import { Linking } from 'react-native'
+import { JSONWebToken } from 'jolocom-lib/js/interactionTokens/JSONWebToken'
+import { CredentialResponse } from 'jolocom-lib/js/interactionTokens/credentialResponse'
+import { PaymentResponse } from 'jolocom-lib/js/interactionTokens/paymentResponse'
+
+const BASE_URL = 'https://demo-sso.jolocom.com'
+
+export const handleInteractionToken = (encodedJWT: string) => {
+  return async(dispatch: Dispatch<AnyAction>, getState: Function) => {
+    const decodedToken = JolocomLib.parse.interactionToken.fromJWT(encodedJWT)
+
+    if(decodedToken.interactionType === 'credentialResponse') {
+      dispatch(handleCredResponse(decodedToken))
+    }
+    
+    if(decodedToken.interactionType === 'paymentResponse') {
+      dispatch(handlePaymentResponse(decodedToken))
+    }
+  }
+} 
 
 export const startSignOn = () => {
   return async(dispatch: Dispatch<AnyAction>, getState: Function) => {
-    const demoAuthURL = 'https://demo-sso.jolocom.com/mobile/credentialRequest'
+    const demoAuthURL = `${BASE_URL}/mobile/credentialRequest`
     try {
       const tokenData = await fetch(demoAuthURL)
       const tokenCredRequest = await tokenData.text()
-      dispatch(setRemotlyGeneratedToken(tokenCredRequest))
 
+      dispatch(setRemotlyGeneratedToken(tokenCredRequest))
       Linking.openURL('jolocomwallet://consent/' + tokenCredRequest)
     } catch (error) {
       console.error(error)
@@ -19,21 +38,35 @@ export const startSignOn = () => {
   }
 }
 
-export const setRemotlyGeneratedToken = (encodedCredRequestToken: string) => {
-  return {
-    type: 'SET_CREDENTIAL_REQUEST',
-    value: encodedCredRequestToken
+export const startPaymentInteraction = () => {
+  return async(dispatch: Dispatch<AnyAction>, getState: Function) => {
+    const demoPaymentRequestURL = `${BASE_URL}/mobile/paymentRequest`
+    try {
+      const tokenData = await fetch(demoPaymentRequestURL)
+      const tokenPaymentRequest = await tokenData.text()
+
+      dispatch(setRemotlyGeneratedToken(tokenPaymentRequest))
+      Linking.openURL('jolocomwallet://demoPayment/' + tokenPaymentRequest)
+    } catch (error) {
+      console.error(error)
+    }
   }
 }
 
-export const handleCredResponse = (encodedJwt: string) => {
+export const setRemotlyGeneratedToken = (encodedRequestToken: string) => {
+  return {
+    type: 'SET_TOKEN_REQUEST',
+    value: encodedRequestToken
+  }
+}
+
+export const handleCredResponse = (credResponse: JSONWebToken<CredentialResponse>) => {
   return async(dispatch: Dispatch<AnyAction>, getState: Function) => {
-    const credRequest = getState().sso.credentialRequest
+    const credRequest = getState().sso.encodedTokenRequest
     try {
       const decodedCredRequest = await JolocomLib.parse.interactionToken.fromJWT(credRequest)
-      const decodedCredResponse = await JolocomLib.parse.interactionToken.fromJWT(encodedJwt)
       
-      if (decodedCredResponse.interactionToken.satisfiesRequest(decodedCredRequest.interactionToken)) {
+      if (credResponse.interactionToken.satisfiesRequest(decodedCredRequest.interactionToken)) {
         dispatch(navigatorReset({ routeName: routeList.Home }))
       }
     } catch (error) {
@@ -42,9 +75,40 @@ export const handleCredResponse = (encodedJwt: string) => {
   }
 }
 
+export const handlePaymentResponse = (paymentResponse: JSONWebToken<PaymentResponse>) => {
+  return async(dispatch: Dispatch<AnyAction>, getState: Function) => {
+    // const paymentRequest = getState().sso.encodedTokenRequest
+
+    try {
+      // const decodedPaymentRequest = await JolocomLib.parse.interactionToken.fromJWT(paymentRequest)
+      // TODO: add remote validation step
+      dispatch(setPaymentResponseData(paymentResponse.interactionToken.txHash))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
+// TODO: remove after demo
+export const handleDemoPaymentResponse = (params: string) => {
+  return async(dispatch: Dispatch<AnyAction>, getState: Function) => {
+    const decodedData = Buffer.from(params, 'base64').toString()
+    const data = JSON.parse(decodedData)
+    dispatch(setPaymentResponseData(data.token.toString()))
+  }
+}
+
+
+export const setPaymentResponseData = (transactionHash: string) => {
+  return {
+    type: 'SET_PAYMENT_RESPONSE_DATA',
+    value: transactionHash
+  }
+}
+
 export const issueSignedCredential = () => {
   return async(dispatch: Dispatch<AnyAction>, getState: Function) => {
-    const demoCredOfferRequestURL = 'https://demo-sso.jolocom.com/mobile/credentialOfferRequest'
+    const demoCredOfferRequestURL = `${BASE_URL}/mobile/credentialOfferRequest`
     
     try {
       const tokenData = await fetch(demoCredOfferRequestURL)

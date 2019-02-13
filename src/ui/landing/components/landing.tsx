@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native'
 import { Button } from 'react-native-material-ui'
 import { Block, Container } from 'src/ui/structure'
 import { JolocomTheme } from 'src/styles/jolocom-theme'
+import { LandingImage } from 'src/resources/landing'
 
 interface State {
 }
@@ -86,6 +87,7 @@ export class LandingComponent extends React.Component<Props, State> {
     return (
       <Container style= { styles.mainContainerStyle }>
         <Block>
+        <LandingImage />
         </Block>
         <Block style={ styles.buttonBlock}>
           <Button

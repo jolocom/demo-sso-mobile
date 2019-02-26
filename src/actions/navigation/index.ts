@@ -33,8 +33,5 @@ export const handleDeepLink = (url: string) => {
     if (routeName === 'interaction') {
       dispatch(ssoActions.handleInteractionToken(encodedJwt))
     }
-    if (routeName === 'demo') {
-      dispatch(ssoActions.handleDemoPaymentResponse(encodedJwt))
-    }
   }
 }

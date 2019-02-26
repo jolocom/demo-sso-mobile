@@ -46,7 +46,7 @@ export const startPaymentInteraction = () => {
       const tokenPaymentRequest = await tokenData.text()
 
       dispatch(setRemotlyGeneratedToken(tokenPaymentRequest))
-      Linking.openURL('jolocomwallet://demoPayment/' + tokenPaymentRequest)
+      Linking.openURL('jolocomwallet://consent/' + tokenPaymentRequest)
     } catch (error) {
       console.error(error)
     }
@@ -88,16 +88,6 @@ export const handlePaymentResponse = (paymentResponse: JSONWebToken<PaymentRespo
     }
   }
 }
-
-// TODO: remove after demo
-export const handleDemoPaymentResponse = (params: string) => {
-  return async(dispatch: Dispatch<AnyAction>, getState: Function) => {
-    const decodedData = Buffer.from(params, 'base64').toString()
-    const data = JSON.parse(decodedData)
-    dispatch(setPaymentResponseData(data.token.toString()))
-  }
-}
-
 
 export const setPaymentResponseData = (transactionHash: string) => {
   return {

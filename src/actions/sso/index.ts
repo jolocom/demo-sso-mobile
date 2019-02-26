@@ -77,10 +77,10 @@ export const handleCredResponse = (credResponse: JSONWebToken<CredentialResponse
 
 export const handlePaymentResponse = (paymentResponse: JSONWebToken<PaymentResponse>) => {
   return async(dispatch: Dispatch<AnyAction>, getState: Function) => {
-    const paymentRequest = getState().sso.encodedTokenRequest
+    // const paymentRequest = getState().sso.encodedTokenRequest
 
     try {
-      const decodedPaymentRequest = await JolocomLib.parse.interactionToken.fromJWT(paymentRequest)
+      // const decodedPaymentRequest = await JolocomLib.parse.interactionToken.fromJWT(paymentRequest)
       // TODO: add remote validation step
       dispatch(setPaymentResponseData(paymentResponse.interactionToken.txHash))
     } catch (error) {

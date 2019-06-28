@@ -1,21 +1,25 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { RootState } from 'src/reducers'
+import { LandingComponent } from '../components/landing'
+import { ssoActions } from 'src/actions'
+import { ThunkDispatch } from 'src/store'
 
 
-export class LandingContainer extends React.Component<{}> {
+interface LandingProps extends ReturnType<typeof mapDispatchToProps> {}
+
+export class LandingContainer extends React.PureComponent<LandingProps> {
   render() {
-      return null
+    return (
+      <LandingComponent handleButtonTap={ this.props.startSignOn } />
+    )
   }
 }
 
-const mapStateToProps = (state: RootState) => {
-  return {}
+const mapDispatchToProps = (dispatch: ThunkDispatch) => {
+  return {
+    startSignOn: () => dispatch(ssoActions.startSignOn()),
+  }
 }
 
-const mapDispatchToProps = (dispatch: Function) => {
-  return {}
-}
 
-export const Landing = connect(mapStateToProps, mapDispatchToProps)(LandingContainer)
-
+export const Landing = connect(null, mapDispatchToProps)(LandingContainer)

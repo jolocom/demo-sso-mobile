@@ -5,6 +5,7 @@ import { createAppContainer } from "react-navigation";
 import { JolocomTheme } from 'src/styles/jolocom-theme'
 import { store } from './store'
 import { Routes } from 'src/routes'
+import config from '../config'
 
 const Navigation = createAppContainer(Routes);
 
@@ -12,11 +13,10 @@ const App = () => {
   return (
     <ThemeContext.Provider value={getTheme(JolocomTheme)}>
       <Provider store={store}>
-        <Navigation />
+        <Navigation uriPrefix={config.APP_URI_PREFIX} />
       </Provider>
     </ThemeContext.Provider>
   )
 }
-
 
 export default App

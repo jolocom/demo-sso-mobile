@@ -9,6 +9,8 @@ Object.assign = assign
 // the version
 process.version = 'v11.13.0'
 
+if (typeof Buffer === 'undefined') global.Buffer = require('buffer').Buffer
+
 // disable react-native warning boxes
 console.disableYellowBox = true
 

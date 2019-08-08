@@ -1,3 +1,7 @@
+IMPORTANT
+===========
+**This repository is DEPRECATED and will not be updated.**
+
 # demo-sso-mobile
 An example mobile application in React Native that showcases the app-to-app interaction flows between the Smartwallet and another mobile app. In order for this demo app to function as intended, please ensure that you have the SmartWallet app on your phone and an identity created with Name and Email credentials filled out.
 

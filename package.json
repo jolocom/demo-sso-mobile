@@ -38,7 +38,7 @@
     "tslib": "^1.7.1",
     "tslint": "^5.9.1",
     "typescript": "^3.0.1",
-    "yarn": "^1.5.1"
+    "yarn": "^1.17.3"
   },
   "scripts": {
     "android": "haul start --platform android",

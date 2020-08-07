@@ -20,7 +20,7 @@
     "babel-preset-es2016": "^6.24.1",
     "babel-preset-react-native-stage-0": "^1.0.1",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
-    "class-transformer": "^0.1.9",
+    "class-transformer": "^0.3.1",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.3",
